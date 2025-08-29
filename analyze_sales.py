@@ -34,15 +34,31 @@ def analyze_sales_data(all_products, products):
     
     most_sold = Counter(all_products)
     most_common_product = most_sold.most_common(1)[0]
-    print(most_sold)
     
     #TODO: Hitta den mest lukrativa produkten med max: max(products, key=products.get)
     most_lucrative_product = max(products, key=products.get)
-    product_value = products[most_lucrative_product]
     
-    print(f"Mest sålda produkt: {most_common_product[0]}, Antal: {most_common_product[1]}")  #FIXME: Redovisa mest sålda produkt här
-    print(f"Mest lukrativa produkt: \"{most_lucrative_product}\" med försäljning på {format_currency(product_value)}") #TODO: BONUS: kan du skapa en funktion som skriver ut rätt formaterad valuta istället för detta?
+    print_sales(most_common_product, most_lucrative_product, products)
+   ### print(f"Mest sålda produkt: {most_common_product[0]}, Antal: {most_common_product[1]}")  #FIXME: Redovisa mest sålda produkt här
+   ### print(f"Mest lukrativa produkt: \"{most_lucrative_product}\" med försäljning på {format_currency(product_value)}") #TODO: BONUS: kan du skapa en funktion som skriver ut rätt formaterad valuta istället för detta?
 
+#BONUS UPPGIFT:
+#Funktion för att printa ut resultat på ett finare sätt
+def print_sales(most_common_product, most_lucrative_product, products):
+    print("\n--- Försäljningsrapport ---\n")
+    
+    print(f"{'Produkt':<20} {'Försäljning (kr)':>15}")
+    print("-" * 37)
+    
+    #Sorterar produkter efter försäljning
+    for product, sales in sorted(products.items(), key=lambda x: x[1], reverse=True):
+        print(f"{product:<20} {format_currency(sales):>15}")
+    
+    print("\nMest sålda produkt:")
+    print(f"    {most_common_product[0]} (Antal: {most_common_product[1]})")
+    
+    print("\nMest lukrativa produkt:")
+    print(f"    {most_lucrative_product} med försäljning på {format_currency(products[most_lucrative_product])}\n")
 
 # Sätt språkinställning till svenska (Sverige) används för att skriva ut formaterad valuta
 locale.setlocale(locale.LC_ALL, 'sv_SE.UTF-8')  
